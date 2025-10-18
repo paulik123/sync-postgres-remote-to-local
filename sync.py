@@ -55,7 +55,7 @@ if 'connection_open | 1' in str(connection_status):
 print(f"======= Syncing {project} =======")
 
 print("\n======= Droping local database and creating a new one =======")
-os.system(f'''sudo -u postgres psql -c "drop database {config["LOCAL_DATABASE"]};" -c "create database {config["LOCAL_DATABASE"]};" -c "alter database {config["LOCAL_DATABASE"]} owner to {config["LOCAL_USERNAME"]};"''')
+os.system(f'''sudo -u postgres psql -c "drop database if exists {config["LOCAL_DATABASE"]};" -c "create database {config["LOCAL_DATABASE"]};" -c "alter database {config["LOCAL_DATABASE"]} owner to {config["LOCAL_USERNAME"]};"''')
 print("=== Done ===")
 
 
