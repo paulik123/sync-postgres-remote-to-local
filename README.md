@@ -8,6 +8,6 @@
 
 
 ##### Bash alias
-> `alias psync="uv run --directory '/home/paulik123/Desktop/work/sync' /home/paulik123/Desktop/work/sync/sync.py"`
+> `alias psync="uv run --directory '<project_path>' <project_path>/sync.py"`
 
 ### * Only tested on Linux.
