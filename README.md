@@ -7,7 +7,7 @@
 3. Run the project: `python3 sync.py -p <projectname>` or `uv run sync.py -p <projectname>`
 
 
-### Bash alias
+##### Bash alias
 > `alias psync="uv run --directory '/home/paulik123/Desktop/work/sync' /home/paulik123/Desktop/work/sync/sync.py"`
 
 ### * Only tested on Linux.
