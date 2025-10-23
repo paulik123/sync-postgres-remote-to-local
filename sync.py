@@ -23,7 +23,6 @@ parser.add_argument("-ll", "--latestlocal", action='store_true', help="Skips dum
 
 args = parser.parse_args()
 project = args.project[0]
-print(project)
 
 try:
 	validate_filename(project)
