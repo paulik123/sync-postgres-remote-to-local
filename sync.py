@@ -21,6 +21,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("project", nargs=1)
 parser.add_argument("-ll", "--latestlocal", action='store_true', help="Skips dumping the remote database and uses the latest local version.")
 parser.add_argument("-do", "--dumponly", action='store_true', help="Do only the dump, skip the restore.")
+parser.add_argument("-rl", "--resetlocal", action='store_true', help="Only DROP, CREATE and ALTER OWNER of local database.")
 
 args = parser.parse_args()
 project = args.project[0]
@@ -62,12 +63,13 @@ if 'connection_open | 1' in str(connection_status):
 
 
 if not args.dumponly:
-	print(f"======= Syncing {project} =======")	
+	print(f"======= PROJECT {project} =======")	
 	print(f"[{now()}] Droping local database and creating a new one")
 	os.system(f'''sudo -u postgres psql -c "drop database if exists {config["LOCAL_DATABASE"]};" -c "create database {config["LOCAL_DATABASE"]};" -c "alter database {config["LOCAL_DATABASE"]} owner to {config["LOCAL_USERNAME"]};"''')
 	print(f"[{now()}] Done")
 
-
+if args.resetlocal:
+	exit()
 
 print()
 if not args.latestlocal:
