@@ -20,6 +20,7 @@ if 'root' not in str(root_status):
 parser = argparse.ArgumentParser()
 parser.add_argument("project", nargs=1)
 parser.add_argument("-ll", "--latestlocal", action='store_true', help="Skips dumping the remote database and uses the latest local version.")
+parser.add_argument("-do", "--dumponly", action='store_true', help="Do only the dump, skip the restore.")
 
 args = parser.parse_args()
 project = args.project[0]
@@ -64,6 +65,9 @@ print(f"======= Syncing {project} =======")
 print(f"[{now()}] Droping local database and creating a new one")
 os.system(f'''sudo -u postgres psql -c "drop database if exists {config["LOCAL_DATABASE"]};" -c "create database {config["LOCAL_DATABASE"]};" -c "alter database {config["LOCAL_DATABASE"]} owner to {config["LOCAL_USERNAME"]};"''')
 print(f"[{now()}] Done")
+
+if args.dumponly:
+	exit()
 
 print()
 if not args.latestlocal:
