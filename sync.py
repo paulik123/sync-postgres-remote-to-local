@@ -60,14 +60,14 @@ if 'connection_open | 1' in str(connection_status):
 	print("🦫🦫🦫 Close DBeaver/runserver boss 🦫🦫🦫")
 	exit()
 
-print(f"======= Syncing {project} =======")
 
-print(f"[{now()}] Droping local database and creating a new one")
-os.system(f'''sudo -u postgres psql -c "drop database if exists {config["LOCAL_DATABASE"]};" -c "create database {config["LOCAL_DATABASE"]};" -c "alter database {config["LOCAL_DATABASE"]} owner to {config["LOCAL_USERNAME"]};"''')
-print(f"[{now()}] Done")
+if not args.dumponly:
+	print(f"======= Syncing {project} =======")	
+	print(f"[{now()}] Droping local database and creating a new one")
+	os.system(f'''sudo -u postgres psql -c "drop database if exists {config["LOCAL_DATABASE"]};" -c "create database {config["LOCAL_DATABASE"]};" -c "alter database {config["LOCAL_DATABASE"]} owner to {config["LOCAL_USERNAME"]};"''')
+	print(f"[{now()}] Done")
 
-if args.dumponly:
-	exit()
+
 
 print()
 if not args.latestlocal:
@@ -84,6 +84,9 @@ else:
 		print(f"⛔ ERROR: Could not find any local dump for project {project}")
 		exit()
 	print(f"[{now()}] Using latest local dump {filename}")
+
+if args.dumponly:
+	exit()
 
 print()
 print(f"[{now()}] Restoring local database [{config['LOCAL_DATABASE']}]")
