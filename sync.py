@@ -69,7 +69,7 @@ if not args.dumponly:
 	print(f"[{now()}] Done")
 
 if args.resetlocal:
-	exit(1)
+	exit()
 
 print()
 if not args.latestlocal:
@@ -88,7 +88,7 @@ else:
 	print(f"[{now()}] Using latest local dump {filename}")
 
 if args.dumponly:
-	exit(1)
+	exit()
 
 print()
 print(f"[{now()}] Restoring local database [{config['LOCAL_DATABASE']}]")
