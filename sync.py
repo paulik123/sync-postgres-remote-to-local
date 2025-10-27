@@ -15,7 +15,7 @@ def now():
 root_status = subprocess.check_output("sudo whoami", shell=True)
 if 'root' not in str(root_status):
 	print("This script must be run as root.")
-	exit()
+	exit(1)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("project", nargs=1)
@@ -30,11 +30,11 @@ try:
 	validate_filename(project)
 except:
 	print("Invalid project name")
-	exit()
+	exit(1)
 
 if not os.path.isfile(f"./envs/{project}"):
 	print("Project env does not exist in ./envs/ directory.")
-	exit()
+	exit(1)
 
 
 
@@ -53,13 +53,13 @@ for key in [
 ]:
 	if key not in config:
 		print(f"Project env does not have {key} parameter.")
-		exit()
+		exit(1)
 
 connection_status = subprocess.check_output(f"""sudo -u postgres psql -x -c \"select exists(SELECT * FROM pg_stat_activity where datname = '{config["LOCAL_DATABASE"]}')::int as connection_open;\"""", shell=True)
 if 'connection_open | 1' in str(connection_status):
 	print("⛔ ERROR: Local database has active connections")
 	print("🦫🦫🦫 Close DBeaver/runserver boss 🦫🦫🦫")
-	exit()
+	exit(1)
 
 
 if not args.dumponly:
@@ -69,7 +69,7 @@ if not args.dumponly:
 	print(f"[{now()}] Done")
 
 if args.resetlocal:
-	exit()
+	exit(1)
 
 print()
 if not args.latestlocal:
@@ -84,11 +84,11 @@ else:
 		filename = os.path.basename(max([fn for fn in p.glob('*') if project in str(fn)], key=lambda f: f.stat().st_mtime))
 	except:
 		print(f"⛔ ERROR: Could not find any local dump for project {project}")
-		exit()
+		exit(1)
 	print(f"[{now()}] Using latest local dump {filename}")
 
 if args.dumponly:
-	exit()
+	exit(1)
 
 print()
 print(f"[{now()}] Restoring local database [{config['LOCAL_DATABASE']}]")
