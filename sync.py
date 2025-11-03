@@ -12,10 +12,7 @@ def now():
 	return datetime.now().isoformat(sep=" ", timespec="seconds")
 
 
-root_status = subprocess.check_output("sudo whoami", shell=True)
-if 'root' not in str(root_status):
-	print("This script must be run as root.")
-	exit(1)
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("project", nargs=1)
@@ -25,6 +22,11 @@ parser.add_argument("-rl", "--resetlocal", action='store_true', help="Only DROP,
 
 args = parser.parse_args()
 project = args.project[0]
+
+root_status = subprocess.check_output("sudo whoami", shell=True)
+if 'root' not in str(root_status):
+	print("This script must be run as root.")
+	exit(1)
 
 try:
 	validate_filename(project)
